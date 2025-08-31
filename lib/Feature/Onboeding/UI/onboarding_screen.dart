@@ -55,7 +55,7 @@ class _OnboardingViewState extends State<OnboardingView> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          // عرض الصور فقط
+          //display image
           PageView.builder(
             controller: controller,
             itemCount: pages.length,
@@ -65,12 +65,20 @@ class _OnboardingViewState extends State<OnboardingView> {
               });
             },
             itemBuilder: (context, index) {
-              return Image.asset(pages[index].image, fit: BoxFit.cover);
+              return Image.asset(
+                pages[index].image,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              );
             },
           ),
-          // الـ Bottom Sheet شبه الثابت في الأسفل
-          IntrinsicHeight(
+
+          // Bottom Sheet
+          SafeArea(
+            top: false,
             child: Container(
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: _bottomSheetColorByIndex(viewModel.currentPage),
                 borderRadius: const BorderRadius.vertical(
@@ -86,45 +94,42 @@ class _OnboardingViewState extends State<OnboardingView> {
               ),
               padding: EdgeInsets.symmetric(
                 horizontal: width * 0.02,
-                vertical: height * 0.018,
+                vertical: height * 0.03,
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // المحتوى: العنوان والوصف
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        pages[viewModel.currentPage].title,
-                        style: _bottomSheetTitlByIndex(viewModel.currentPage),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(
-                        height: viewModel.currentPage == pages.length - 1
-                            ? 0
-                            : height * 0.01,
-                      ),
-                      Text(
-                        pages[viewModel.currentPage].description ?? '',
-                        style: _bottomSheetDescriptionByIndex(
-                          viewModel.currentPage,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                  // title and discription
+                  Text(
+                    pages[viewModel.currentPage].title,
+                    style: _bottomSheetTitlByIndex(viewModel.currentPage),
+                    textAlign: TextAlign.center,
                   ),
+                  SizedBox(
+                    height: viewModel.currentPage == pages.length - 1
+                        ? 0
+                        : height * 0.01,
+                  ),
+                  Text(
+                    pages[viewModel.currentPage].description ?? '',
+                    style: _bottomSheetDescriptionByIndex(
+                      viewModel.currentPage,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+
                   SizedBox(
                     height: viewModel.currentPage == pages.length - 1
                         ? 0
                         : height * 0.02,
                   ),
-                  // Botton
+
+                  // Buttons
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Finish or  Next or Explore Now Botton
                       if (viewModel.currentPage == pages.length - 1) ...[
+                        // Finish Button
                         SizedBox(
                           width: width * 0.95,
                           height: height * 0.06,
@@ -151,6 +156,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                           ),
                         ),
                       ] else ...[
+                        // Explore Now or Next Button
                         SizedBox(
                           width: width * 0.95,
                           height: height * 0.06,
@@ -178,9 +184,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                         ),
                       ],
 
-                      SizedBox(height: height * 0.01),
+                      SizedBox(height: height * 0.012),
 
-                      // Back Boutton
+                      // Back Button
                       if (viewModel.currentPage > 1) ...[
                         SizedBox(
                           width: width * 0.95,
@@ -221,17 +227,17 @@ class _OnboardingViewState extends State<OnboardingView> {
     );
   }
 
-  //funcrion to change color of bottom sheet
+  //  function to change Bottom Sheet color by index
   Color _bottomSheetColorByIndex(int index) {
     switch (index) {
       case 0:
         return AppColors.transparent;
       default:
-        return Color(0xFF121312);
+        return const Color(0xFF121312);
     }
   }
 
-  //funcrion to change Style of title
+  // function to change Bottom Sheet title by index
   TextStyle _bottomSheetTitlByIndex(int index) {
     switch (index) {
       case 0:
@@ -241,7 +247,7 @@ class _OnboardingViewState extends State<OnboardingView> {
     }
   }
 
-  //funcrion to change Style of descripton
+  // function to change Bottom Sheet discription by index
   TextStyle _bottomSheetDescriptionByIndex(int index) {
     switch (index) {
       case 0:
