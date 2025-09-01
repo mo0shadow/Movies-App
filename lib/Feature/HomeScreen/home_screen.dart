@@ -13,6 +13,8 @@ class HomeScreen extends StatelessWidget {
           Navigator.push(context, MaterialPageRoute(builder: (context)=>OnboardingScreen()));
           
         }, icon: Icon(Icons.back_hand)),
+        title: Text("Home"),
+        centerTitle: true,
         
     ));
   }
