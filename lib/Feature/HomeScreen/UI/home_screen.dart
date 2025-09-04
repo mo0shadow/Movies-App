@@ -236,8 +236,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Padding(
               padding: EdgeInsets.only(
-                left: languageProvider.applanguage == "ar" ? width * 0.01 : 0,
-                right: languageProvider.applanguage == "ar" ? 0 : width * 0.01,
+                left: languageProvider.applanguage == "ar" ? 0 : width * 0.02,
+                right: languageProvider.applanguage == "ar" ? 0 : width * 0.03,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
