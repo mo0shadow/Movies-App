@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:movie/Feature/Onboeding/DataSource/onboarding_data_source.dart';
 import 'package:movie/Feature/Onboeding/DataSource/onboarding_model.dart';
-import 'package:movie/Feature/Onboeding/Reposatory/onboarding_repository.dart';
+import 'onboarding_repository.dart';
 
 class OnboardingRepositoryImplement implements OnboardingRepository {
   final OnboardingDataSource dataSource;

@@ -1,4 +1,4 @@
- import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart';
 import 'package:movie/Feature/Onboeding/DataSource/onboarding_model.dart';
 
 abstract class OnboardingRepository {

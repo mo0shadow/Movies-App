@@ -3,10 +3,11 @@ import 'package:movie/Core/Utils/app_colors.dart';
 import 'package:movie/Core/Utils/app_routes.dart';
 import 'package:movie/Core/Utils/app_text_style.dart';
 import 'package:movie/Feature/Onboeding/DataSource/onboarding_data_source_impelement.dart';
-import 'package:movie/Feature/Onboeding/Reposatory/onboarding_%20repository_impelement.dart';
 import 'package:movie/Feature/Onboeding/UI/onboarding_viewmodel.dart';
 import 'package:movie/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+
+import '../Repository/onboarding_ repository_impelement.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -75,150 +76,152 @@ class _OnboardingViewState extends State<OnboardingView> {
           ),
 
           // Bottom Sheet
-          SafeArea(
-            top: false,
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: _bottomSheetColorByIndex(viewModel.currentPage),
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(40),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.4),
-                    blurRadius: 10,
-                    offset: const Offset(0, -3),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: _bottomSheetColorByIndex(viewModel.currentPage),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(40),
                   ),
-                ],
-              ),
-              padding: EdgeInsets.symmetric(
-                horizontal: width * 0.02,
-                vertical: height * 0.03,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // title and discription
-                  Text(
-                    pages[viewModel.currentPage].title,
-                    style: _bottomSheetTitlByIndex(viewModel.currentPage),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: viewModel.currentPage == pages.length - 1
-                        ? 0
-                        : height * 0.01,
-                  ),
-                  Text(
-                    pages[viewModel.currentPage].description ?? '',
-                    style: _bottomSheetDescriptionByIndex(
-                      viewModel.currentPage,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.4),
+                      blurRadius: 10,
+                      offset: const Offset(0, -3),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
+                  ],
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.02,
+                  vertical: height * 0.03,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // title and discription
+                    Text(
+                      pages[viewModel.currentPage].title,
+                      style: _bottomSheetTitlByIndex(viewModel.currentPage),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: viewModel.currentPage == pages.length - 1
+                          ? 0
+                          : height * 0.01,
+                    ),
+                    Text(
+                      pages[viewModel.currentPage].description ?? '',
+                      style: _bottomSheetDescriptionByIndex(
+                        viewModel.currentPage,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
 
-                  SizedBox(
-                    height: viewModel.currentPage == pages.length - 1
-                        ? 0
-                        : height * 0.02,
-                  ),
+                    SizedBox(
+                      height: viewModel.currentPage == pages.length - 1
+                          ? 0
+                          : height * 0.02,
+                    ),
 
-                  // Buttons
-                  Column(
-                    children: [
-                      if (viewModel.currentPage == pages.length - 1) ...[
-                        // Finish Button
-                        SizedBox(
-                          width: width * 0.95,
-                          height: height * 0.06,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              viewModel.finishOnboarding().then((_) {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  AppRoutes.homeScreen,
-                                );
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.yellow,
-                              foregroundColor: AppColors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            child: Text(
-                              AppLocalizations.of(context)!.finish,
-                              style: AppTextStyle.interW600Black20,
-                            ),
-                          ),
-                        ),
-                      ] else ...[
-                        // Explore Now or Next Button
-                        SizedBox(
-                          width: width * 0.95,
-                          height: height * 0.06,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              controller.nextPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.yellow,
-                              foregroundColor: AppColors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            child: Text(
-                              viewModel.currentPage == 0
-                                  ? AppLocalizations.of(context)!.explore_now
-                                  : AppLocalizations.of(context)!.next,
-                              style: AppTextStyle.interW600Black20,
-                            ),
-                          ),
-                        ),
-                      ],
-
-                      SizedBox(height: height * 0.012),
-
-                      // Back Button
-                      if (viewModel.currentPage > 1) ...[
-                        SizedBox(
-                          width: width * 0.95,
-                          height: height * 0.06,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              controller.previousPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.black,
-                              foregroundColor: AppColors.wight,
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  width: 1,
-                                  color: AppColors.yellow,
+                    // Buttons
+                    Column(
+                      children: [
+                        if (viewModel.currentPage == pages.length - 1) ...[
+                          // Finish Button
+                          SizedBox(
+                            width: width * 0.95,
+                            height: height * 0.06,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                viewModel.finishOnboarding().then((_) {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    AppRoutes.homeScreen,
+                                  );
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.yellow,
+                                foregroundColor: AppColors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Text(
+                                AppLocalizations.of(context)!.finish,
+                                style: AppTextStyle.interW600Black20,
                               ),
                             ),
-                            child: Text(
-                              AppLocalizations.of(context)!.back,
-                              style: AppTextStyle.interW600Yellow20,
+                          ),
+                        ] else ...[
+                          // Explore Now or Next Button
+                          SizedBox(
+                            width: width * 0.95,
+                            height: height * 0.06,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                controller.nextPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.yellow,
+                                foregroundColor: AppColors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              child: Text(
+                                viewModel.currentPage == 0
+                                    ? AppLocalizations.of(context)!.explore_now
+                                    : AppLocalizations.of(context)!.next,
+                                style: AppTextStyle.interW600Black20,
+                              ),
                             ),
                           ),
-                        ),
+                        ],
+
+                        SizedBox(height: height * 0.012),
+
+                        // Back Button
+                        if (viewModel.currentPage > 1) ...[
+                          SizedBox(
+                            width: width * 0.95,
+                            height: height * 0.06,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                controller.previousPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.black,
+                                foregroundColor: AppColors.wight,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    width: 1,
+                                    color: AppColors.yellow,
+                                  ),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              child: Text(
+                                AppLocalizations.of(context)!.back,
+                                style: AppTextStyle.interW600Yellow20,
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
