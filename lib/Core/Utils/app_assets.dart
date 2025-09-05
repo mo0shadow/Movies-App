@@ -6,7 +6,7 @@ abstract class AppAssets {
   static String onboarding5 = "assets/images/onboarding5.png";
   static String onboarding6 = "assets/images/onboarding6.png";
   static String homeIcon = "assets/images/homeIcon.png";
-  static String searchIcon = "assets/imagessearchIcon.png";
+  static String searchIcon = "assets/images/searchIcon.png";
   static String browseIcon = "assets/images/browsIcon.png";
   static String profileIcon = "assets/images/profielIcon.png";
 
@@ -22,4 +22,8 @@ abstract class AppAssets {
   static String loveIcon = "assets/images/loveIcon.png";
   static String timeIcon = "assets/images/timeIcon.png";
   static String rateIcon = "assets/images/rateIcon.png";
+  static String availableNow = "assets/images/Available Now.png";
+  static String watchNow = "assets/images/Watch Now.png";
+    static String popcowrnIcon = "assets/images/Empty 1.png";
+
 }
